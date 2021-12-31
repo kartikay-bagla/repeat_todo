@@ -5,6 +5,7 @@ Flask-Migrate
 
 python-dotenv
 python-json-logger
+pandas
 
 pytest
 black
