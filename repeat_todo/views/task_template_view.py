@@ -8,7 +8,7 @@ from flask_login import current_user, login_required
 from repeat_todo.extensions import db
 from repeat_todo.models.task_instance import TaskInstance
 from repeat_todo.models.task_template import TaskTemplate
-from repeat_todo.utils import get_dates_from_rrule
+from repeat_todo.utils import datetime_to_date, get_dates_from_rrule
 
 task_template_route = Blueprint("task_template", __name__)
 
@@ -39,9 +39,8 @@ def add_task_template():
     db.session.commit()
 
     try:
-        end_date = datetime.now().replace(
-            hour=0, minute=0, second=0, microsecond=0
-        ) + timedelta(days=90)
+        start_date = datetime_to_date(datetime.now())
+        end_date = start_date + timedelta(days=90)
         dates = get_dates_from_rrule(schedule, end_date)
         task_instance_df = pd.DataFrame(
             {

@@ -2,13 +2,13 @@ from datetime import datetime, timedelta
 
 import pandas as pd
 
-from repeat_todo.utils import get_dates_from_rrule
+from repeat_todo.utils import datetime_to_date, get_dates_from_rrule
 
 
 def test_get_dates_from_rrule_hourly():
     rule = "FREQ=HOURLY"
 
-    today = datetime.now().replace(minute=0, second=0, microsecond=0)
+    today = datetime_to_date(datetime.now())
     end_date = today + timedelta(days=5)
 
     dates = get_dates_from_rrule(rule, end_date)
@@ -18,7 +18,7 @@ def test_get_dates_from_rrule_hourly():
 
 
 def test_get_dates_from_rrule_daily():
-    today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    today = datetime_to_date(datetime.now(), hour=False)
     end_date = today + timedelta(days=5)
 
     rule = "FREQ=DAILY"
@@ -28,7 +28,7 @@ def test_get_dates_from_rrule_daily():
 
     assert (dates == date_range).all()
 
-    today = datetime.now().replace(minute=0, second=0, microsecond=0)
+    today = datetime_to_date(datetime.now())
     end_date = today + timedelta(days=5)
 
     rule = "FREQ=DAILY;BYHOUR=0,12"
@@ -41,7 +41,7 @@ def test_get_dates_from_rrule_daily():
 
 
 def test_get_dates_from_rrule_weekly():
-    today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    today = datetime_to_date(datetime.now(), hour=False)
     end_date = today + timedelta(days=10)
 
     rule = "FREQ=WEEKLY"
@@ -69,7 +69,7 @@ def test_get_dates_from_rrule_weekly():
 
 
 def test_get_dates_from_rrule_monthly():
-    today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    today = datetime_to_date(datetime.now(), hour=False)
     end_date = today + timedelta(days=35)
 
     rule = "FREQ=MONTHLY"
