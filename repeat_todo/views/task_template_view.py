@@ -72,7 +72,9 @@ def delete_task_template():
     except KeyError:
         return jsonify({"error": "Missing id"}), 400
 
-    task_template = TaskTemplate.query.filter_by(id=task_template_id).first()
+    task_template = TaskTemplate.query.filter_by(
+        id=task_template_id, user_id=current_user.id
+    ).first()
     if not task_template:
         return jsonify({"error": "Task template does not exist"}), 400
     db.session.delete(task_template)
@@ -89,7 +91,9 @@ def update_task_template():
     except KeyError:
         return jsonify({"error": "Missing task template id"}), 400
 
-    task_template = TaskTemplate.query.filter_by(id=task_template_id).first()
+    task_template = TaskTemplate.query.filter_by(
+        id=task_template_id, user_id=current_user.id
+    ).first()
     if not task_template:
         return jsonify({"error": "Task template does not exist"}), 400
     try:
@@ -110,6 +114,12 @@ def update_task_template():
 @task_template_route.route("/<int:task_template_id>/", methods=["GET"])
 @login_required
 def get_task_template(task_template_id):
+    task_template = TaskTemplate.query.filter_by(
+        id=task_template_id, user_id=current_user.id
+    ).first()
+    if not task_template:
+        return jsonify({"error": "Task template does not exist"}), 400
+
     task_instance = TaskInstance.query.filter_by(
         task_template_id=task_template_id
     ).all()

@@ -11,7 +11,7 @@ Next Steps:
 * Extend/Update created tasks for a task template:
   * Just find the last created instance, and move ahead with it.
   * To do this, you need to update the get_dates_from_* functions to use start_date instead of datetime.now()
-* Add checks in task_template apis that the correct user is accessing
+* ~~Add checks in task_template apis that the correct user is accessing~~
 * Add endpoints to update status of task instances with user verification checks
 * Create react dashboard
 * Dockerize this stuff
